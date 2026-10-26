@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>KPI</title>
+<style>/*STYLE*/</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <span class="brand" id="brand"></span>
+    <span class="tabs" id="tabs"></span>
+  </nav>
+  <header>
+    <h1 id="title">Дашборд</h1>
+    <p class="meta" id="meta"></p>
+    <p class="sum" id="sum"></p>
+  </header>
+  <div class="legend">
+    <span><i class="dot green"></i>≥ 100% плана</span>
+    <span><i class="dot yellow"></i>95–100%</span>
+    <span><i class="dot red"></i>&lt; 95%</span>
+    <span class="muted">Для «чем меньше, тем лучше» (затраты, запасы, дни, возвраты) % = план / факт.</span>
+  </div>
+  <section class="tiles" id="tiles"></section>
+  <section class="card" id="alerts-card">
+    <h2>Зона внимания</h2>
+    <p class="note">Что отстаёт от плана и какой темп нужен до конца месяца.</p>
+    <p class="ai" id="ai" hidden></p>
+    <ul class="alerts" id="alerts"></ul>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Все показатели</h2>
+        <p class="note">День — последний рабочий день; неделя — с понедельника нарастающим; месяц нараст. — с 1-го числа; прогноз — по текущему темпу; год нараст. — с 1 января. Нажмите на строку — откроется формула и источник в 1С.</p>
+      </div>
+      <div class="view">
+        <button data-view="full" class="on">Полная</button><button data-view="compact">Компактно</button>
+      </div>
+    </div>
+    <div class="tw"><table class="t" id="table"></table></div>
+  </section>
+  <section class="grid2">
+    <div class="card"><h2 id="d-title">Месяц нарастающим итогом</h2><p class="note" id="d-note"></p>
+      <div class="lg"><span><i class="ln ref"></i>План</span><span><i class="ln acc"></i>Факт</span><span><i class="ln acc dash"></i>Прогноз</span></div>
+      <div class="chart" id="chart-daily"></div></div>
+    <div class="card"><h2 id="m-title">По месяцам года</h2><p class="note" id="m-note"></p>
+      <div class="lg"><span><i class="bx acc"></i>Факт</span><span><i class="bx muted-bg"></i>Прогноз</span><span><i class="ln fg"></i>План</span></div>
+      <div class="chart" id="chart-monthly"></div></div>
+  </section>
+  <footer class="muted" id="foot"></footer>
+</div>
+<div class="tip" id="tip"></div>
+<script>window.KPI_DATA = /*DATA*/;</script>
+<script>/*APP*/</script>
+</body>
+</html>

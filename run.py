@@ -18,12 +18,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
-from kpi import engine, loader, report, telegram  # noqa: E402
+import engine, loader, report, telegram  # noqa: E402
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="KPI → Telegram")
-    ap.add_argument("--excel", default=str(ROOT / "data" / "KPI_import_template.xlsx"))
+    ap.add_argument("--excel", default=str(ROOT / "KPI_import_template.xlsx"))
     ap.add_argument("--out", default=str(ROOT / "out"))
     ap.add_argument("--report-date", help="пересчитать на дату ДД.ММ.ГГГГ")
     ap.add_argument("--no-telegram", action="store_true")
@@ -54,9 +54,20 @@ def main() -> int:
     if a.no_telegram:
         return 0
     token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
-    if not token or not chat:
-        print("ОШИБКА: не заданы секреты TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID (Settings → Secrets and variables → Actions)")
+    if not token:
+        print("ОШИБКА: не задан секрет TELEGRAM_BOT_TOKEN (Settings → Secrets and variables → Actions)")
         return 1
+    if not chat:
+        # chat_id не задан — ищем канал/группу, куда добавлен бот (по событиям за последние 24 часа)
+        chats = [c for c in telegram.find_chats(token) if c["type"] in ("channel", "supergroup", "group")]
+        for c in chats:
+            print(f"Найден чат: {c['title']}  chat_id = {c['id']}  ({c['type']})")
+        if len(chats) != 1:
+            print("ОШИБКА: " + ("бот не видит ни одного канала — напишите в канал любое сообщение и запустите снова"
+                                if not chats else "бот состоит в нескольких чатах — впишите нужный chat_id из списка выше в секрет TELEGRAM_CHAT_ID"))
+            return 1
+        chat = str(chats[0]["id"])
+        print(f"Публикую в «{chats[0]['title']}». Чтобы закрепить, впишите {chat} в секрет TELEGRAM_CHAT_ID.")
     tg = cfg.get("telegram", {})
     msg = telegram.build_posts(company, meta, reports, "", {}, tg.get("max_alerts", 3))
     for text in msg["posts"]:
