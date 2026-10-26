@@ -1,0 +1,22 @@
+# Настройки KPI-бота. Меняйте только значения справа от «=».
+
+[telegram]
+# Сколько главных отклонений показывать по каждой роли в посте
+max_alerts = 3
+
+# Какие графики рисовать для каждой роли (kpi_id из листа Справочник_KPI шаблона)
+[roles.cfo]
+daily = "gp"
+monthly = "ebitda"
+
+[roles.owner]
+daily = "rev"
+monthly = "rev"
+
+[roles.sales]
+daily = "rev"
+monthly = "gp"
+
+[roles.purchase]
+daily = "purch"
+monthly = "purch"
