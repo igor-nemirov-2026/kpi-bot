@@ -29,7 +29,7 @@ def screenshots(html_file: Path, roles: list[str], out_dir: Path) -> list[Path]:
     out = []
     url = Path(html_file).resolve().as_uri()
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        browser = p.chromium.launch(channel="chrome")
         page = browser.new_page(viewport={"width": 1440, "height": 900}, device_scale_factor=1.5)
         for role in roles:
             page.goto(f"{url}?role={role}&view=compact&shot=1")
