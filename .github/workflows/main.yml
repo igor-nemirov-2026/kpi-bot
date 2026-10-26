@@ -1,11 +1,10 @@
-yaml
 name: KPI to Telegram
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "data/**"
+      - "*.xlsx"
   schedule:
     - cron: "0 8,13 * * 1-5"
 
