@@ -1,10 +1,10 @@
-yaml
-name: KPI в Telegram
+name: KPI to Telegram
 
 on:
   workflow_dispatch:
   push:
-    paths: ["data/**"]
+    paths:
+      - "data/**"
   schedule:
     - cron: "0 8,13 * * 1-5"
 
@@ -18,19 +18,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Установка
+      - name: Install
         run: |
           pip install -r requirements.txt playwright
           python -m playwright install --with-deps chromium
-      - name: Расчёт KPI и публикация в Telegram
+      - name: KPI to Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python run.py
-      - name: Сохранить дашборд в истории запуска
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: kpi-dashboard
-          path: out/
-          retention-days: 30
